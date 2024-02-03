@@ -1,0 +1,86 @@
+.container
+  padding: 80px 12px
+  background: #140F0A
+
+.footer-body
+  display: flex
+  flex-wrap: wrap
+  flex-direction: column
+  margin-bottom: 80px
+
+.social-media-frame
+  margin-top: 40px
+  display: flex
+  a
+    margin-right: 16px
+    padding: 8px
+    width: 40px
+    height: 40px
+    border: 1px solid #fff
+    border-radius: 50%
+  img
+    text-align: center
+
+.hotel-info-frame
+  margin-top: 40px
+  display: grid
+  gap: 16px
+  grid-template-columns: repeat(1,1fr)
+
+.hotel-info-column
+  display: grid
+  gap: 16px
+  grid-template-columns: repeat(1,1fr)
+
+.hotel-info-item
+  color: #ECECEC
+  font-size: 14px
+  font-weight: 500
+  line-height: 150%
+  letter-spacing: 0.32px
+
+.hotel-info-item-title
+  color: #FFFFFF
+  font-weight: 700
+  font-size: 16px
+
+.footer-bottom
+  display: flex
+  flex-wrap: wrap
+  justify-content: space-between
+  color: #fff
+  font-size: 16px
+
+@media (min-width:768px)
+
+@media (min-width:992px)
+  .container
+    padding: 80px 312px
+
+  .footer-body
+    margin-bottom: 80px
+    flex-direction: row
+    justify-content: space-between
+
+  .social-media-frame
+    margin-top: 40px
+
+    a
+      margin-right: 16px
+      padding: 8px
+      width: 40px
+      height: 40px
+
+  .hotel-info-frame
+    margin-top: 0
+    gap: 80px
+    grid-template-columns: repeat(2,1fr)
+
+  .hotel-info-column
+    gap: 40px
+
+  .hotel-info-item
+    font-size: 16px
+
+  .footer-bottom
+    font-size: 16px
