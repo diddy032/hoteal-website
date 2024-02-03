@@ -2,12 +2,118 @@
   background: #140F0A
   display: flex
 
-.image-frame,.form-frame
-  width: 50%
-
 .image-frame
+  display: none
   position: relative
   height: 100%
 
 .form-frame
-  border: 1px solid #fff
+  width: 100%
+  position: relative
+  overflow: hidden
+  form
+    margin-top: 40px
+
+.image-desc
+  margin-top: 32px
+  height: 54px
+  // border: 1px solid #FFF
+  background-image: url('/images/home/line2.png')
+  background-position: center
+  background-repeat: no-repeat
+  background-size: 135% 100%
+  // pointer-events: none
+
+.content
+  margin: 20px 20px 164px 20px
+
+.title,.sub-title
+  font-weight: 700
+
+.title
+  margin: 0
+  font-size: 32px
+  line-height: 1.2
+  letter-spacing: 1.6px
+  color: #FFFFFF
+
+.sub-title
+  margin-bottom: 8px
+  font-size: 14px
+  line-height: 1.5
+  letter-spacing: 0.28px
+  color: #BF9D7D
+
+.form-row
+  margin-bottom: 16px
+  label
+    display: block
+    padding-bottom: 8px
+    color: #fff
+
+  input
+    width: -webkit-fill-available
+    padding: 16px
+    border-radius: 8px
+    border: 1px solid #ECECEC
+    background: #FFF
+
+.form-check-wrap
+  color: #fff
+  input[type=checkbox]
+    accent-color: #BF9D7D
+
+.main-btn
+  display: block
+  width: 100%
+  margin: 40px 0
+  padding: 16px 32px
+  border-radius: 8px
+  color: #909090
+  background: #ECECEC
+  text-align: center
+  &.active
+    color: #fff
+    background: #BF9D7D
+
+.link-style
+  color: #BF9D7D
+  text-decoration-line: underline
+
+.text-white
+  color: #fff
+
+@media (min-width:992px)
+  .image-frame,.form-frame
+    width: 50%
+    min-height: 550px
+
+  .image-frame
+    display: block
+
+  .image-desc
+    margin-top: 0
+    position: absolute
+    left: 0
+    right: 0
+    top: 13%
+    height: 187px
+    background-position: center left
+    background-size: 120% 100%
+
+  .content
+    width: 416px
+    margin: 0
+    position: absolute
+    left: 50%
+    top: 50%
+    transform: translate(-50%,-50%)
+
+  .title
+    font-size: 48px
+    letter-spacing: 2.4px
+
+  .sub-title
+    font-size: 16px
+    line-height: 1.5
+    letter-spacing: 0.32px
