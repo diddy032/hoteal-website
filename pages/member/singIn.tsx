@@ -3,11 +3,14 @@ import Link from "next/link";
 import Image from "next/legacy/image";
 import { postData } from "@/api/helper";
 import { useRouter } from "next/router";
-import { useEffect, useState, useMemo, ChangeEvent } from "react";
+import { useEffect, useState, useMemo, useContext, ChangeEvent } from "react";
+import { setCookie } from "cookies-next";
+import { Context_data } from "@/context";
 import Header from "@/component/layout/header";
 import style from "./styles/singin.module.sass";
 
 import cityJson from "@/data/twCities.json";
+import moment from "moment";
 
 interface SingInPostObject {
   email: string;
@@ -18,6 +21,14 @@ interface SingInPostObject {
   birthday: string;
   zipcode: number;
   detail: string;
+}
+interface SingInSendPostObject {
+  email: string;
+  password: string;
+  name: string;
+  phone: string;
+  birthday: string;
+  address: { zipcode: number; detail: string };
 }
 
 interface Area {
@@ -42,6 +53,7 @@ const monthNames = [
 export default function SingIn() {
   const isDevelop: Boolean = process.env.NODE_ENV === "development";
   const router = useRouter();
+  const { setAuthToken, setAccount } = useContext(Context_data);
   const [stopSubmitBtm, setStopSubmitBtm] = useState<boolean>(false);
   const [checkPassword, setCheckPassword] = useState<boolean>(false);
   const [selectCityList, setSelectCityList] = useState<Area[]>([]);
@@ -52,16 +64,16 @@ export default function SingIn() {
   const [selectDay, setSelectDay] = useState<number>(1);
 
   const [isAgree, setIsAgree] = useState<boolean>(false);
-  const [step, setStep] = useState<number>(2);
+  const [step, setStep] = useState<number>(1);
   const [postObj, setPostObj] = useState<SingInPostObject>({
-    email: isDevelop ? "wowzeroz@gmail.com" : "",
-    password: isDevelop ? "12345678aa" : "",
-    passwordCheck: isDevelop ? "12345678aa" : "",
-    name: "王大明",
-    phone: "(663) 742-3828",
-    birthday: "1982/2/4",
-    zipcode: 802,
-    detail: "文山路23號",
+    email: isDevelop ? "" : "",
+    password: isDevelop ? "" : "",
+    passwordCheck: isDevelop ? "" : "",
+    name: "",
+    phone: "",
+    birthday: "",
+    zipcode: 0,
+    detail: "",
   });
 
   useEffect(() => {
@@ -70,6 +82,8 @@ export default function SingIn() {
   }, []);
 
   useMemo(() => {
+    if (postObj.password.trim() === "" || postObj.passwordCheck.trim() === "")
+      return setCheckPassword(false);
     postObj.password === postObj.passwordCheck
       ? setCheckPassword(true)
       : setCheckPassword(false);
@@ -135,26 +149,34 @@ export default function SingIn() {
     event.stopPropagation();
     event.preventDefault();
     setStopSubmitBtm(false);
-
-    // try {
-    //   const res = await postData("/api/v1/user/login", postObj);
-    //   // console.log("res:", res);
-    //   if (res.status) {
-    //     setCookie("hotel", res.token, {
-    //       expires: new Date(moment().add(1, "hours").format()),
-    //     });
-    //     setAuthToken(res.token);
-    //     setAccount(res.result);
-    //     alert("登入成功");
-    //     setPostObj({ email: "", password: "" });
-    //     router.push("/");
-    //   }
-    //   setStopSubmitBtm(true);
-    // } catch (error: any) {
-    //   const text: string = error?.response?.data?.message ?? "";
-    //   alert(text);
-    //   setStopSubmitBtm(true);
-    // }
+    const submitObj: SingInSendPostObject = {
+      email: postObj.email,
+      password: postObj.password,
+      name: postObj.name,
+      phone: postObj.phone,
+      birthday: `${selectYear}/${selectMonth}/${selectDay}`,
+      address: { zipcode: postObj.zipcode, detail: postObj.detail },
+    };
+    console.log("submitObj", submitObj);
+    try {
+      const res = await postData("/api/v1/user/signup", submitObj);
+      console.log("res:", res);
+      if (res.status) {
+        setCookie("hotel", res.token, {
+          expires: new Date(moment().add(1, "hours").format()),
+        });
+        setAuthToken(res.token);
+        setAccount(res.result);
+        alert("註冊成功");
+        // setPostObj({ email: "", password: "" });
+        router.push("/");
+      }
+      setStopSubmitBtm(true);
+    } catch (error: any) {
+      const text: string = error?.response?.data?.message ?? "";
+      alert(text);
+      setStopSubmitBtm(true);
+    }
   }
   return (
     <>
@@ -356,6 +378,7 @@ export default function SingIn() {
                         name="city"
                         id="city"
                         onChange={(event) => handleSelectCity(event)}
+                        required
                       >
                         <option value="">請選擇</option>
                         {cityJson.map((item) => (
@@ -365,9 +388,10 @@ export default function SingIn() {
                         ))}
                       </select>
                       <select
-                        name=""
+                        name="zipcode"
                         id=""
                         onChange={(event) => handleChangeForSelect(event)}
+                        required
                       >
                         <option value="">請選擇</option>
                         {selectCityList.map((item) => (
@@ -381,7 +405,7 @@ export default function SingIn() {
                     <input
                       id="login-address-detail"
                       type="text"
-                      name="address-detail"
+                      name="detail"
                       placeholder="請輸入詳細地址"
                       value={postObj.detail}
                       onChange={(event) => handleChange(event)}
@@ -400,8 +424,13 @@ export default function SingIn() {
                           event: React.FormEvent<HTMLInputElement>
                         ): void => {
                           event.stopPropagation();
-                          setIsAgree((state) => !state);
+                          setIsAgree((state) => {
+                            if (!state) setStopSubmitBtm(true);
+                            if (state) setStopSubmitBtm(false);
+                            return !state;
+                          });
                         }}
+                        required
                       />
 
                       <label htmlFor="login-isAgree">
