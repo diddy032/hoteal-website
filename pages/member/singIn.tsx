@@ -157,10 +157,10 @@ export default function SingIn() {
       birthday: `${selectYear}/${selectMonth}/${selectDay}`,
       address: { zipcode: postObj.zipcode, detail: postObj.detail },
     };
-    console.log("submitObj", submitObj);
+    // console.log("submitObj", submitObj);
     try {
       const res = await postData("/api/v1/user/signup", submitObj);
-      console.log("res:", res);
+      // console.log("res:", res);
       if (res.status) {
         setCookie("hotel", res.token, {
           expires: new Date(moment().add(1, "hours").format()),
