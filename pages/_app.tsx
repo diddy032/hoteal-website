@@ -1,6 +1,6 @@
 import Head from "next/head";
-import LayoutIndex from "@/component/layout";
 import type { AppProps } from "next/app";
+import Context from "@/context";
 import "normalize.css";
 import "@/styles/globals.sass";
 
@@ -17,10 +17,14 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta property="og:image" content="" />
         <meta property="og:type" content="website" />
         <link rel="icon" href="/favicon.ico" />
+        <style>
+          @import
+          url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300;400;500;600;700;900&display=swap');
+        </style>
       </Head>
-      <LayoutIndex>
+      <Context>
         <Component {...pageProps} />
-      </LayoutIndex>
+      </Context>
     </>
   );
 }
