@@ -7,6 +7,13 @@
   &.ts-bg
     background: transparent
 
+.logo-frame
+  position: relative
+  width: 110px
+  height: 40px
+  a
+    display: block
+
 .nav-item
   padding: 16px
   font-size: 16px
@@ -39,7 +46,6 @@
   position: fixed
   height: 100vh
   width: 100%
-  // max-width: 400px
   top: 0
   left: -100%
   background: #140F0A
@@ -51,6 +57,7 @@
   transition: all 0.3s ease
 
   color: #fff
+  z-index: 5
 
   &.active
     left: 0%
@@ -68,11 +75,15 @@
   flex-direction: column
   width: calc( 100% - 40px )
 
-@media (min-width:768px)
+// @media (min-width:768px)
 
 @media (min-width:992px)
   .container
     padding: 24px 80px
+
+  .logo-frame
+    width: 196px
+    height: 72px
 
   .nav-item
     padding: 16px

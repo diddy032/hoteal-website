@@ -20,16 +20,19 @@ export default function Header({
           isTransparentBg ? style["ts-bg"] : ""
         }`}
       >
-        <div>
+        <div className={style["logo-frame"]}>
           <Link href="/">
             <Image
-              priority
+              priority={true}
               width={110}
               height={40}
               alt="網站LOGO"
+              sizes="100vw"
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
               src="/images/logo.png"
-              layout="responsive"
-              sizes="(min-width: 992px) 196px, 72px"
             />
           </Link>
         </div>
