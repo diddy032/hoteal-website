@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import { postData } from "@/api/helper";
-import { useEffect, useState, useMemo, useContext, ChangeEvent } from "react";
+import { useState, useMemo, useContext, ChangeEvent } from "react";
 import { setCookie } from "cookies-next";
 import { Context_data } from "@/context";
 
@@ -53,7 +53,7 @@ export default function Login() {
     event.stopPropagation();
     event.preventDefault();
     setStopSubmitBtm(false);
-    console.log("hi");
+
     try {
       const res = await postData("/api/v1/user/login", postObj);
       // console.log("res:", res);
