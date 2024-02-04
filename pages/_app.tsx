@@ -36,10 +36,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta property="og:image" content="" />
         <meta property="og:type" content="website" />
         <link rel="icon" href="/favicon.ico" />
-        <style>
-          @import
-          url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@200;300;400;500;600;700;900&display=swap');
-        </style>
       </Head>
       <Context authTokenProps={authToken}>
         <Component {...pageProps} />
