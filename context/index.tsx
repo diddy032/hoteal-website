@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 interface ContextProps {
   authToken: string;
@@ -16,11 +16,17 @@ export const Context_data = createContext<ContextProps>({
 
 type Props = {
   children?: React.ReactNode;
+  authTokenProps?: string;
 };
 
-export function Context({ children }: Props) {
+export function Context({ children, authTokenProps }: Props) {
   const [authToken, setAuthToken] = useState<string>("");
   const [account, setAccount] = useState<{}>({});
+
+  useEffect(() => {
+    if (authTokenProps === undefined || authTokenProps === "") return;
+    setAuthToken(authTokenProps);
+  }, [authTokenProps]);
 
   return (
     <Context_data.Provider

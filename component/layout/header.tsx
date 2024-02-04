@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Context_data } from "@/context";
 import Image from "next/legacy/image";
 import Link from "next/link";
 import style from "./styles/header.module.sass";
@@ -12,7 +13,9 @@ export default function Header({
   isTransparentBg,
   showNav = true,
 }: HeaderProps) {
+  const { authToken } = useContext(Context_data);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+
   return (
     <>
       <div
@@ -42,9 +45,15 @@ export default function Header({
           <Link href="/" className={style["nav-item"]}>
             客房旅館
           </Link>
-          <Link href="/member/login" className={style["nav-item"]}>
-            會員登入
-          </Link>
+          {authToken ? (
+            <Link href="/member/" className={style["nav-item"]}>
+              我的帳戶
+            </Link>
+          ) : (
+            <Link href="/member/login/" className={style["nav-item"]}>
+              會員登入
+            </Link>
+          )}
           <Link
             href="/"
             className={`${style["nav-item"]} ${style["btn-style"]}`}
@@ -83,15 +92,34 @@ export default function Header({
           />
         </button>
         <div className={style["mobile-nav-list"]}>
-          <Link href="/" className={style["nav-item"]}>
+          <Link
+            href="/"
+            className={style["nav-item"]}
+            onClick={() => setIsOpenMenu(false)}
+          >
             客房旅館
           </Link>
-          <Link href="/member/login" className={style["nav-item"]}>
-            會員登入
-          </Link>
+          {authToken ? (
+            <Link
+              href="/member/"
+              className={style["nav-item"]}
+              onClick={() => setIsOpenMenu(false)}
+            >
+              我的帳戶
+            </Link>
+          ) : (
+            <Link
+              href="/member/login"
+              className={style["nav-item"]}
+              onClick={() => setIsOpenMenu(false)}
+            >
+              會員登入
+            </Link>
+          )}
           <Link
             href="/"
             className={`${style["nav-item"]} ${style["btn-style"]}`}
+            onClick={() => setIsOpenMenu(false)}
           >
             立即訂房
           </Link>
