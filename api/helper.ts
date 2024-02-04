@@ -36,6 +36,22 @@ export async function postData(url: string, payload: {}) {
   }
 }
 
+export async function fetchDataForToken(url: string, token: string) {
+  const options: Options = {
+    method: "get",
+    url,
+    token: `${token}`,
+  };
+
+  try {
+    const response = await sendApiRequest(options);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
 export async function postDataForToken(
   url: string,
   payload: {},
@@ -45,7 +61,7 @@ export async function postDataForToken(
     method: "post",
     url,
     payload,
-    token: `bearer ${token}`,
+    token: `${token}`,
   };
 
   try {
